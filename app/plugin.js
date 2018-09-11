@@ -2,7 +2,6 @@ tinymce.PluginManager.add('AwsS3Upload', (editor, url)=> {
 
     //Grab the params from TinyMCE init
     const {bucketName, folderName = '', awsAuth, buttonText = 'Upload File', conditions={}, progress, secondFileSelectedBeforeFirstUpload} = editor.getParam('Awss3UploadSettings');
-    const {secretAccessKey, accessKeyId, region} = awsAuth;
     const {contentLengthRange={min:0, max:null}} = conditions;
 
     let inProgress = false;
@@ -12,8 +11,11 @@ tinymce.PluginManager.add('AwsS3Upload', (editor, url)=> {
         console.log('`bucketName` parameter missing on init AwsS3Upload TinyMCE plugin.');
         return false;
     }
+
     //awsAuth control
     if (awsAuth && typeof awsAuth === 'object') {
+        const {secretAccessKey, accessKeyId, region} = awsAuth;
+        
         if (!accessKeyId) {
             console.log('`awsAuth` parameter missing `accessKeyId` property on init AwsS3Upload TinyMCE plugin.');
             return false;
